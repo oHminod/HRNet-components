@@ -1,4 +1,4 @@
-import DatePicker from "../dist/datePicker/DatePicker";
+import { DatePicker } from "../dist/";
 
 const App = () => (
   <div>

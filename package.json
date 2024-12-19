@@ -1,5 +1,5 @@
 {
-  "name": "hrnet-components",
+  "name": "hrnet-components-ohm",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -41,6 +41,6 @@
   ],
   "repository": {
     "type": "git",
-    "url": "URL_OF_YOUR_REPOSITORY"
+    "url": "https://github.com/oHminod/HRNet-components"
   }
 }
