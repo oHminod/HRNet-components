@@ -1,3 +1,4 @@
 import DatePicker from "./datePicker/DatePicker";
+import CustomSelect from "./select/Select";
 
-export { DatePicker };
+export { DatePicker, CustomSelect };
