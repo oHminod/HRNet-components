@@ -81,7 +81,7 @@ const DatePicker = ({
           type="text"
           value={inputValue}
           placeholder={placeholder}
-          className="border-2 border-r-1 p-2 rounded-l-lg px-4 py-2 w-full focus:outline-none hover:bg-gray-100"
+          className="border-2 border-r-1 p-2 rounded-l-lg px-4 w-full focus:outline-none hover:bg-gray-100 placeholder:text-gray-600 border-gray-400"
           onChange={(e) => handleInputChange(e.target.value)}
           onFocus={handleFocus}
           onMouseUp={handleMouseUp}
@@ -90,9 +90,10 @@ const DatePicker = ({
         <button
           type="button"
           onClick={toggleDatepicker}
-          className="border-2 border-l-0 p-2 rounded-r-lg px-2 py-2 focus:outline-none hover:bg-gray-100"
+          className="border-2 border-l-0 p-2 rounded-r-lg focus:outline-none hover:bg-gray-100 border-gray-400 text-gray-400 hover:text-gray-600"
+          aria-label="Toggle Datepicker"
         >
-          <Calendar className="w-5 h-5 text-gray-400" />
+          <Calendar className="w-5 h-5" />
         </button>
       </div>
       {isOpen && (

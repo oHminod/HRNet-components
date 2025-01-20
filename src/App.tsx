@@ -1,5 +1,4 @@
-import { DatePicker } from "../dist/";
-import { CustomSelect } from "./lib";
+import { CustomSelect, DatePicker } from "./lib";
 
 const App = () => (
   <div>
