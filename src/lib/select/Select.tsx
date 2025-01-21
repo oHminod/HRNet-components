@@ -92,6 +92,7 @@ const CustomSelect = <T extends string | number>({
               ? defaultValue
               : ""
           }
+          onChange={() => {}}
         />
       )}
     </div>
