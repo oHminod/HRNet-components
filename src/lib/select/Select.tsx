@@ -47,7 +47,7 @@ const CustomSelect = <T extends string | number>({
 
   return (
     <div className="relative inline-block" ref={dropdownRef}>
-      <button
+      <div
         className="border-2 border-gray-400 p-2 rounded-lg cursor-pointer flex justify-between items-center px-4 hover:bg-gray-100"
         onClick={() => setIsOpen((prev) => !prev)}
       >
@@ -63,7 +63,7 @@ const CustomSelect = <T extends string | number>({
         >
           <path d="M5.516 7.548l4.484 4.484 4.484-4.484L15.484 9l-5 5-5-5z" />
         </svg>
-      </button>
+      </div>
       {isOpen && (
         <ul className="absolute z-10 mt-1 w-full bg-white border-2 p-2 rounded-lg shadow max-h-60 overflow-auto">
           {options.map((option, index) => (
