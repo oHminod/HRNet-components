@@ -87,6 +87,8 @@ const DatePicker = ({
           onFocus={handleFocus}
           onMouseUp={handleMouseUp}
           onSelect={handleSelect}
+          id={name + "-display"}
+          name={name + "-display"}
         />
         <button
           type="button"
@@ -130,6 +132,7 @@ const DatePicker = ({
       {name && (
         <input
           type="hidden"
+          id={name}
           name={name}
           value={selectedDate ? formatDate(selectedDate) : ""}
         />
