@@ -84,6 +84,7 @@ const CustomSelect = <T extends string | number>({
         <input
           type="hidden"
           name={name}
+          id={name}
           value={
             selectedValue !== undefined
               ? selectedValue
