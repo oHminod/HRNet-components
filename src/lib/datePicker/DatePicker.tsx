@@ -2,6 +2,7 @@
 import { Calendar } from "lucide-react";
 import { useRef, useCallback, useState } from "react";
 import { useDatePicker } from "./utils/useDatePicker";
+import "../components.css";
 
 interface DatePickerProps {
   name?: string;

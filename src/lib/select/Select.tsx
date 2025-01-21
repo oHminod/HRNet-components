@@ -1,5 +1,6 @@
 // Select.tsx
 import { useState, useRef, useEffect } from "react";
+import "../components.css";
 
 interface CustomSelectProps<T extends string | number> {
   options: T[];
