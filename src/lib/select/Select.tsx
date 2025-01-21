@@ -82,7 +82,7 @@ const CustomSelect = <T extends string | number>({
       {/* Hidden input for form submission */}
       {name && (
         <input
-          type="hidden"
+          className="hidden"
           name={name}
           id={name}
           value={
