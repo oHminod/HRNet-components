@@ -3,15 +3,18 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { parseDateFromInput } from "./parseDate";
 
-interface UseDatePickerProps {
-  initialValue?: string;
-  onChange?: (value: string) => void;
-}
-
+/**
+ * Détermine si l'année passée en paramètre est une année bissextile
+ * en vérifiant les divisions par 400, 100 et 4
+ */
 const isLeapYear = (year: number) => {
   return year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0);
 };
 
+/**
+ * Vérifie si le jour, le mois et l'année donnés correspondent
+ * à une date valide en utilisant le tableau daysInMonth
+ */
 const validateDate = (day: number, month: number, year: number) => {
   if (year < 1 || month < 0 || month > 11 || day < 1) return false;
 
@@ -33,16 +36,27 @@ const validateDate = (day: number, month: number, year: number) => {
   if (day > daysInMonth[month]) {
     return false;
   }
-
   return true;
 };
 
+/**
+ * Hook principal qui initialise et gère l'état d'un sélecteur de date,
+ * notamment l'ouverture du panneau, la date sélectionnée, et les fonctions
+ * de formatage et de validation associées
+ */
 export const useDatePicker = ({
   initialValue,
   onChange,
-}: UseDatePickerProps) => {
+}: {
+  initialValue?: string;
+  onChange?: (value: string) => void;
+}) => {
+  // État contrôlant l'ouverture du sélecteur
   const [isOpen, setIsOpen] = useState(false);
 
+  /**
+   * Transforme un objet Date en chaîne de caractères au format JJ/MM/AAAA
+   */
   const formatDisplayDate = useCallback((date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -50,6 +64,9 @@ export const useDatePicker = ({
     return `${day}/${month}/${year}`;
   }, []);
 
+  /**
+   * Transforme un objet Date en chaîne de caractères au format AAAA-MM-JJ
+   */
   const formatDate = useCallback((date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -57,6 +74,10 @@ export const useDatePicker = ({
     return `${year}-${month}-${day}`;
   }, []);
 
+  /**
+   * Convertit un input de type JJ/MM/AAAA en objet Date valide
+   * ou renvoie null si la date est invalide
+   */
   const parseInputDate = useCallback((input: string): Date | null => {
     const parts = input.split("/");
     if (parts.length !== 3) return null;
@@ -79,19 +100,28 @@ export const useDatePicker = ({
     return null;
   }, []);
 
+  // Détermine la date initiale si fournie
   const initialDate = initialValue ? new Date(initialValue) : null;
 
+  // Contient la valeur texte du champ date et la date sélectionnée
   const [inputValue, setInputValue] = useState<string>(
     initialDate ? formatDisplayDate(initialDate) : ""
   );
   const [selectedDate, setSelectedDate] = useState<Date | null>(initialDate);
+
+  // Contrôle le mois affiché dans le calendrier
   const [currentMonth, setCurrentMonth] = useState<Date>(
     selectedDate || new Date()
   );
 
+  // Référence pour détecter le clic en dehors du sélecteur
   const datepickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    /**
+     * Surveille les clics en dehors du composant,
+     * ferme le sélecteur si l'utilisateur clique à l'extérieur
+     */
     const handleClickOutside = (event: MouseEvent) => {
       if (
         datepickerRef.current &&
@@ -106,13 +136,19 @@ export const useDatePicker = ({
     };
   }, []);
 
+  /**
+   * Inverse la valeur booléenne isOpen pour ouvrir/fermer le sélecteur
+   */
   const toggleDatepicker = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
 
+  /**
+   * Met à jour la valeur du champ texte et tente de convertir
+   * l'entrée en date valide pour ajuster l'état
+   */
   const handleInputChange = useCallback(
     (input: string) => {
-      // Si l'entrée est vide, on reset
       if (input.trim().length === 0) {
         setInputValue("");
         setSelectedDate(null);
@@ -124,23 +160,19 @@ export const useDatePicker = ({
 
       setInputValue(formattedInput);
 
-      // Si on a la longueur complète (JJ/MM/AAAA)
       const digits = formattedInput.replace(/\D/g, "");
       if (digits.length === 8) {
-        // Tenter de parse la date complète si possible
         const date = parseInputDate(formattedInput);
         if (date) {
           setSelectedDate(date);
           setCurrentMonth(date);
           if (onChange) onChange(formatDate(date));
         } else {
-          // Date invalide, on réinitialise
           setSelectedDate(null);
           setInputValue("");
           if (onChange) onChange("");
         }
       } else {
-        // Pas encore 8 chiffres, on ne valide pas encore
         setSelectedDate(null);
         if (onChange) onChange("");
       }
@@ -148,6 +180,10 @@ export const useDatePicker = ({
     [onChange, parseInputDate, formatDate]
   );
 
+  /**
+   * Affecte la date choisie par l'utilisateur comme date sélectionnée,
+   * met à jour le champ texte et referme le sélecteur
+   */
   const handleDateSelect = useCallback(
     (date: Date) => {
       setSelectedDate(date);
@@ -160,10 +196,19 @@ export const useDatePicker = ({
     [onChange, formatDate, formatDisplayDate]
   );
 
+  /**
+   * Calcule le jour de la semaine (0 = lundi) pour correctement aligner
+   * les jours sur le calendrier
+   */
   const getWeekDay = useCallback((date: Date) => {
-    return (date.getDay() + 6) % 7; // Lundi = 0
+    return (date.getDay() + 6) % 7;
   }, []);
 
+  /**
+   * Construit la liste de tous les jours à afficher dans
+   * le calendrier pour le mois en cours (incluant les jours
+   * du mois précédent/suivant visibles au début/à la fin)
+   */
   const renderDays = useCallback(() => {
     const days: JSX.Element[] = [];
     const year = currentMonth.getFullYear();
@@ -214,18 +259,25 @@ export const useDatePicker = ({
     return days;
   }, [currentMonth, selectedDate, getWeekDay, handleDateSelect]);
 
+  /**
+   * Bascule vers le mois précédent en ajustant le currentMonth
+   */
   const goToPreviousMonth = useCallback(() => {
     setCurrentMonth(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1)
     );
   }, [currentMonth]);
 
+  /**
+   * Bascule vers le mois suivant en ajustant le currentMonth
+   */
   const goToNextMonth = useCallback(() => {
     setCurrentMonth(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1)
     );
   }, [currentMonth]);
 
+  // Expose les valeurs et fonctions nécessaires pour le sélecteur
   return {
     isOpen,
     inputValue,

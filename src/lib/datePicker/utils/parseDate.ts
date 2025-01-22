@@ -1,4 +1,15 @@
 // parrseDate.ts
+
+/**
+ * La fonction parseDateFromInput traite une chaîne d'entrée pour
+ * en extraire successivement le jour, le mois et l'année selon
+ * diverses vérifications (validité du jour, plage du mois, etc.).
+ * Elle reconstruit ensuite la date au format JJ/MM/AAAA, même si
+ * certains chiffres peuvent se révéler invalides (elle anticipe
+ * ces cas en les reformattant partiellement). L'objectif est de
+ * simplifier la saisie d'une date en la complétant petit à petit
+ * tout en conservant la possibilité de sonder la validité.
+ */
 export const parseDateFromInput = (rawInput: string): string => {
     const digits = rawInput.replace(/\D/g, "");
     let day = "";

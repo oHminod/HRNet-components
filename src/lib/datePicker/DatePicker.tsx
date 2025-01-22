@@ -1,4 +1,10 @@
 // DatePicker.tsx
+
+/**
+ * Composant principal qui encapsule l'affichage et la logique d'un sélecteur de date.
+ * Il gère notamment la saisie de la date, l'ouverture du calendrier, les interactions
+ * de sélection, et fournit un champ caché pour stocker la date au bon format.
+ */
 import { Calendar } from "lucide-react";
 import { useRef, useCallback, useState } from "react";
 import { useDatePicker } from "./utils/useDatePicker";
@@ -11,6 +17,12 @@ interface DatePickerProps {
   onChange?: (value: string) => void;
 }
 
+/**
+ * Composant fonctionnel réutilisable qui encapsule un champ de saisie,
+ * un bouton d'ouverture du calendrier, et un panneau de calendrier.
+ * Il utilise le hook useDatePicker pour gérer l'état et la logique
+ * interne, notamment la date actuelle, sa sélection et son affichage.
+ */
 const DatePicker = ({
   name,
   value,
@@ -37,6 +49,10 @@ const DatePicker = ({
   // false : dès que l'utilisateur tape, on le met à false et on n'applique plus la contrainte.
   const [selectionLocked, setSelectionLocked] = useState(true);
 
+  /**
+   * Cette fonction met en forme un objet Date au format AAAA-MM-JJ,
+   * pour un usage comme valeur de champ caché ou tout autre besoin interne.
+   */
   const formatDate = (date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -44,11 +60,20 @@ const DatePicker = ({
     return `${year}-${month}-${day}`;
   };
 
+  /**
+   * Gère l'événement de focus sur le champ de saisie. Sélectionne le contenu
+   * du champ afin de faciliter la saisie. Vérrouille la sélection pour éviter
+   * qu'elle ne soit partiellement modifiée.
+   */
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     event.target.select();
     setSelectionLocked(true); // On verrouille la sélection au focus
   };
 
+  /**
+   * Gère l'événement de relâchement de la souris. Empêche la sélection partielle
+   * du texte si l'état selectionLocked est actif.
+   */
   const handleMouseUp = (event: React.MouseEvent<HTMLInputElement>) => {
     // Empêcher la sélection partielle à la souris en annulant le mouseup si locked
     if (selectionLocked) {
@@ -56,6 +81,10 @@ const DatePicker = ({
     }
   };
 
+  /**
+   * Fonction chargée de maintenir la sélection complète si le verrou est actif
+   * (c'est-à-dire si la saisie est considérée comme entièrement sélectionnée).
+   */
   const handleSelect = useCallback(() => {
     // Si la sélection est verrouillée, on s'assure que tout est toujours sélectionné
     if (selectionLocked && inputRef.current) {
@@ -67,7 +96,11 @@ const DatePicker = ({
     }
   }, [selectionLocked]);
 
-  // Une fois que l'utilisateur tape, on libère le verrou, on le réactive quand la date est complète
+  /**
+   * Gère l'évolution de la valeur saisie par l'utilisateur. Rend la sélection
+   * partielle possible si la longueur saisie est inférieure à 10, et la réactive
+   * dès que la date atteint ou dépasse 10 caractères (format complet).
+   */
   const handleInputChange = (val: string) => {
     if (val.length >= 10) setSelectionLocked(true);
     if (val.length < 10) setSelectionLocked(false);
