@@ -1,9 +1,25 @@
 {
   "name": "hrnet-components-ohm",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "type": "module",
   "description": "HRNet components for React",
   "author": "Yves M.",
+  "keywords": [
+    "react",
+    "hrnet",
+    "components",
+    "datepicker",
+    "calendar",
+    "date",
+    "picker",
+    "select",
+    "dropdown",
+    "input",
+    "form",
+    "ui",
+    "library",
+    "modal"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
