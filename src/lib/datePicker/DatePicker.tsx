@@ -6,7 +6,7 @@
  * de sélection, et fournit un champ caché pour stocker la date au bon format.
  */
 import { Calendar } from "lucide-react";
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback } from "react";
 import { useDatePicker } from "./utils/useDatePicker";
 import "../components.css";
 
@@ -35,30 +35,17 @@ const DatePicker = ({
     selectedDate,
     currentMonth,
     datepickerRef,
+    selectionLocked,
     toggleDatepicker,
-    handleInputChange: originalHandleInputChange,
+    handleInputChange,
     renderDays,
     goToPreviousMonth,
     goToNextMonth,
+    formatDate,
+    setSelectionLocked,
   } = useDatePicker({ initialValue: value, onChange });
 
   const inputRef = useRef<HTMLInputElement>(null);
-
-  // Cet état servira à verrouiller la sélection.
-  // true : la sélection complète est forcée au survol et clic initial.
-  // false : dès que l'utilisateur tape, on le met à false et on n'applique plus la contrainte.
-  const [selectionLocked, setSelectionLocked] = useState(true);
-
-  /**
-   * Cette fonction met en forme un objet Date au format AAAA-MM-JJ,
-   * pour un usage comme valeur de champ caché ou tout autre besoin interne.
-   */
-  const formatDate = (date: Date): string => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
 
   /**
    * Gère l'événement de focus sur le champ de saisie. Sélectionne le contenu
@@ -95,17 +82,6 @@ const DatePicker = ({
       }
     }
   }, [selectionLocked]);
-
-  /**
-   * Gère l'évolution de la valeur saisie par l'utilisateur. Rend la sélection
-   * partielle possible si la longueur saisie est inférieure à 10, et la réactive
-   * dès que la date atteint ou dépasse 10 caractères (format complet).
-   */
-  const handleInputChange = (val: string) => {
-    if (val.length >= 10) setSelectionLocked(true);
-    if (val.length < 10) setSelectionLocked(false);
-    originalHandleInputChange(val);
-  };
 
   return (
     <div className="relative inline-block w-44" ref={datepickerRef}>

@@ -32,6 +32,13 @@ Cette librairie regroupe trois composants principaux, accessibles sur npm sous f
 
 ---
 
+## Prérequis
+
+- Node.js (version 18 ou supérieure)
+- npm (version 9 ou supérieure)
+- React (version 18 ou supérieure)
+- ReactDOM (version 18 ou supérieure)
+
 ## Gestion du projet global
 
 Cette section explique comment ajouter un composant, compiler la CSS, construire la librairie et la publier sur npm.

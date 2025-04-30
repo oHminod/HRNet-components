@@ -54,6 +54,11 @@ export const useDatePicker = ({
   // État contrôlant l'ouverture du sélecteur
   const [isOpen, setIsOpen] = useState(false);
 
+  // Cet état servira à verrouiller la sélection.
+  // true : la sélection complète est forcée au survol et clic initial.
+  // false : dès que l'utilisateur tape, on le met à false et on n'applique plus la contrainte.
+  const [selectionLocked, setSelectionLocked] = useState(true);
+
   /**
    * Transforme un objet Date en chaîne de caractères au format JJ/MM/AAAA
    */
@@ -149,6 +154,8 @@ export const useDatePicker = ({
    */
   const handleInputChange = useCallback(
     (input: string) => {
+      if (input.length >= 10) setSelectionLocked(true);
+      if (input.length < 10) setSelectionLocked(false);
       if (input.trim().length === 0) {
         setInputValue("");
         setSelectedDate(null);
@@ -284,10 +291,13 @@ export const useDatePicker = ({
     selectedDate,
     currentMonth,
     datepickerRef,
+    selectionLocked,
     toggleDatepicker,
     handleInputChange,
     renderDays,
     goToPreviousMonth,
     goToNextMonth,
+    formatDate,
+    setSelectionLocked,
   };
 };
