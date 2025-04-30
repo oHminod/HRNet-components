@@ -1,7 +1,9 @@
 {
   "name": "hrnet-components-ohm",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "type": "module",
+  "description": "HRNet components for React",
+  "author": "Yves M.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
