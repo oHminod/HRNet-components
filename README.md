@@ -1,6 +1,6 @@
-# HRNet Components Library
+# HRNet DatePicker Components Library
 
-Cette librairie regroupe trois composants principaux, accessibles sur npm sous forme de package :
+Cette librairie propose le composant DatePicker, accessible sur npm sous forme de package :
 
 1. **DatePicker**  
    Permet de saisir une date, d’ouvrir un calendrier interactif et de transmettre la valeur sélectionnée via un champ caché.
@@ -11,26 +11,6 @@ Cette librairie regroupe trois composants principaux, accessibles sur npm sous f
      - `placeholder?: string`
      - `onChange?: (value: string) => void`
    - Affiche un champ texte, un bouton pour ouvrir le calendrier, et insère automatiquement un champ `<input type="hidden">` pour la soumission en formulaire.
-
-2. **CustomSelect**  
-   Un sélecteur personnalisable permettant de choisir une option et de la transmettre via un champ caché.
-
-   - **Propriétés** :
-     - `options: T[]`
-     - `defaultValue?: T`
-     - `placeholder?: string`
-     - `name?: string`
-     - `onOptionChange?: (value: T) => void`
-   - Permet de sélectionner une valeur parmi des options et met à jour un champ `<input type="hidden">`.
-
-3. **Modal**  
-   Affiche une fenêtre modale avec un titre, un message et un bouton de fermeture.
-   - **Propriétés** :
-     - `title: string`
-     - `message: string`
-     - `setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>`
-
----
 
 ## Prérequis
 
